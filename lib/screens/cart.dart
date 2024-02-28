@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_app/function/cartfunction.dart';
 import 'package:travel_app/function/shoefunction.dart';
 import 'package:travel_app/model/cartmodel/cartmodel.dart';
+
 import 'package:travel_app/screens/adress.dart';
 import 'package:travel_app/widget/screenhome.dart';
 
@@ -160,7 +161,7 @@ class _CartState extends State<Cart> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'Totalprice:$totalprice',    
+                          'Totalprice:$totalprice',
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,

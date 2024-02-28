@@ -36,25 +36,8 @@ class User extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                      color: Colors.orange,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (ctx) => PieChartPage()));
-                        },
-                        child: Text(
-                          "pie chart",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.orange)),
-                      )),
-                  SizedBox(
-                    height: 30,
-                  ),
+                 
+                  
                 ],
               ),
             ],
@@ -67,20 +50,25 @@ class User extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+               Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (ctx) => PieChartPage()));
+
+            },
             child: Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Icon(
-                    (Icons.settings),
+                    (Icons.chat_rounded),
                     size: 30,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                    "settings",
+                    "Chart",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 )
