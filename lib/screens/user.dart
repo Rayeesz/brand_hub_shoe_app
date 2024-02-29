@@ -36,8 +36,6 @@ class User extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                 
-                  
                 ],
               ),
             ],
@@ -51,10 +49,8 @@ class User extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-               Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (ctx) => PieChartPage()));
-
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (ctx) => PieChartPage()));
             },
             child: Row(
               children: [
