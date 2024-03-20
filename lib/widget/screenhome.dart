@@ -1,42 +1,24 @@
 // ignore_for_file: prefer_const_constructors
 
-
 import 'package:flutter/material.dart';
-
-import 'package:travel_app/screens/cart.dart';
-import 'package:travel_app/screens/mainscreen.dart';
-import 'package:travel_app/screens/orders.dart';
-
-import 'package:travel_app/screens/user.dart';
-
-
-class ScreeenHome extends StatefulWidget {
-  const ScreeenHome({super.key});
-
-  @override
-  State<ScreeenHome> createState() => _ScreeenHomeState();
-}
-
-class _ScreeenHomeState extends State<ScreeenHome> {
+import 'package:provider/provider.dart';
+import 'package:travel_app/controller/screenhome_providerdemo.dart';
+// ignore: must_be_immutable
+class ScreeenHome extends StatelessWidget {
+  ScreeenHome({super.key});
   int _currentSelectIndex = 0;
-  final _pages = [
-  Mainscreen(),
- Orders() ,
- Cart(),
-  User(),
-   ];
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ScreeenHomeprovider>(context);
     return Scaffold(
-      body: _pages[_currentSelectIndex],
+      body: provider.pages[provider.currentSelectIndex],
       bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Color.fromARGB(255, 255, 153, 0),
           unselectedItemColor: Colors.black,
           currentIndex: _currentSelectIndex,
           onTap: (newindex) {
-            setState(() {
-              _currentSelectIndex = newindex;
-            });
+            provider.indexvalue(newindex);
+            _currentSelectIndex = newindex;
           },
           items: const [
             BottomNavigationBarItem(

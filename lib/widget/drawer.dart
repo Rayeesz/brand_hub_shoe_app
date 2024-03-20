@@ -2,21 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:travel_app/screens/men.dart';
+import 'package:travel_app/view/loginscreen.dart';
+import 'package:travel_app/view/men.dart';
+import 'package:travel_app/view/women.dart';
 
 
-import 'package:travel_app/screens/loginscreen.dart';
-import 'package:travel_app/screens/women.dart';
 
-
-class Navbar extends StatefulWidget {
+class Navbar extends StatelessWidget {
   const Navbar({super.key});
-
-  @override
-  State<Navbar> createState() => _NavbarState();
-}
-
-class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -34,7 +27,6 @@ class _NavbarState extends State<Navbar> {
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Men()));
-   
             },
             trailing: Icon(Icons.boy),
           ),

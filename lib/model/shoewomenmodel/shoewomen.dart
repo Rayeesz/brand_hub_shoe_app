@@ -1,6 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
 part 'shoewomen.g.dart';
-
 @HiveType(typeId: 3)
 class ShoeWomen {
   @HiveField(1)

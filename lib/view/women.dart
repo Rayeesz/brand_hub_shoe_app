@@ -1,21 +1,14 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_unnecessary_containers, camel_case_types
-
 import 'package:flutter/material.dart';
-
-import 'package:travel_app/function/shoewomen.dart';
-import 'package:travel_app/model/shoewomenmodel/shoewomen.dart';
-
-
-import 'package:travel_app/screens/buynow.dart';
-import 'package:travel_app/screens/piechart.dart';
-
+import 'package:provider/provider.dart';
+import 'package:travel_app/controller/shoe_women_provider.dart';
+import 'package:travel_app/view/buynow.dart';
+import 'package:travel_app/view/piechart.dart';
 class Women extends StatelessWidget {
   const Women({super.key});
-
   @override
   Widget build(BuildContext context) {
-    getAllWomenshoesDetils();
-
+    Provider.of<ShoeWomenprovider>(context).getallws();
     List<int> totalwomen=[];
     return Scaffold(
       appBar: AppBar(
@@ -76,22 +69,20 @@ class Women extends StatelessWidget {
             height: 20,
           ),
           Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: ShoeWomenlist,
-              builder: (BuildContext ctx, List<ShoeWomen> shoewomenlist,
-                  Widget? child) {
+            child: Consumer<ShoeWomenprovider>(
+              builder: (context,shoewomenprovider,child) {
                 return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 00.0,
                   ),
-                  itemCount: shoewomenlist.length,
+                  itemCount: shoewomenprovider.shoelist.length,
                   itemBuilder: (context, index) {
-                    final shoe = shoewomenlist[index];
+                    final shoe = shoewomenprovider.shoelist[index];
                     totalwomen.add(int.parse(shoe.price));
                     double total=totalwomen.reduce((value, element) => value+element).toDouble();
                     Chart.womenvalue=total;
-            
+                            
                     return Padding(
                       padding: const EdgeInsets.only(
                         left: 30,
@@ -110,7 +101,7 @@ class Women extends StatelessWidget {
                     );
                   },
                 );
-              },
+              }
             ),
           ),
         ],

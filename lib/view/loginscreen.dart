@@ -5,17 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_app/main.dart';
 import 'package:travel_app/widget/screenhome.dart';
 
-class Loginscreen extends StatefulWidget {
-  const Loginscreen({super.key});
+class Loginscreen extends StatelessWidget {
+   Loginscreen({super.key});
 
-  @override
-  State<Loginscreen> createState() => _LoginscreenState();
-}
-
-class _LoginscreenState extends State<Loginscreen> {
   final usernamecontroller = TextEditingController();
+
   final passwordcontroller = TextEditingController();
+
   final formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

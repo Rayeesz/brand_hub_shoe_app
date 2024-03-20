@@ -1,44 +1,38 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, camel_case_types, dead_code, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:travel_app/function/function.dart';
-import 'package:travel_app/model/model/model.dart';
+import 'package:provider/provider.dart';
 
-import 'package:travel_app/screens/men.dart';
+import 'package:travel_app/model/model/model.dart';
+import 'package:travel_app/controller/booking_provider.dart';
+import 'package:travel_app/controller/orders_provider.dart';
+import 'package:travel_app/view/men.dart';
+
+
 import 'package:travel_app/widget/screenhome.dart';
-class Address extends StatefulWidget {
+
+class Address extends StatelessWidget {
   Address({super.key});
 
   @override
-  State<Address> createState() => _AddressState();
-
-  
-}
-
-class _AddressState extends State<Address> {
-  final namecontroller = TextEditingController();
-  final phonecontroller = TextEditingController();
-  final addresscontroller = TextEditingController();
-  final pincodecontroller = TextEditingController();
-  final statecontroller = TextEditingController();
-  final citycontroller = TextEditingController();
-  final formkey = GlobalKey<FormState>();
-  @override
   Widget build(BuildContext context) {
+  
+    final addProvider = Provider.of<BookingProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Add delivey adress"),
         leading: IconButton(
             onPressed: () {
               Navigator.of(context)
-                  .pop(MaterialPageRoute(builder: (context) =>  Men()));
+                  .pop(MaterialPageRoute(builder: (context) => Men()));
             },
             icon: Icon(Icons.arrow_back)),
         backgroundColor: Color.fromARGB(255, 243, 147, 3),
       ),
       body: SingleChildScrollView(
           child: Form(
-        key: formkey,
+        key: addProvider.formkey,
         child: Column(
           children: [
             SizedBox(
@@ -54,7 +48,7 @@ class _AddressState extends State<Address> {
                     return null;
                   }
                 },
-                controller: namecontroller,
+                controller: addProvider.namecontroller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(),
@@ -66,7 +60,7 @@ class _AddressState extends State<Address> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextFormField(
-                controller: phonecontroller,
+                controller: addProvider.phonecontroller,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "error";
@@ -92,7 +86,7 @@ class _AddressState extends State<Address> {
                     return null;
                   }
                 },
-                controller: addresscontroller,
+                controller: addProvider.addresscontroller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(),
@@ -111,7 +105,7 @@ class _AddressState extends State<Address> {
                     return null;
                   }
                 },
-                controller: pincodecontroller,
+                controller: addProvider.pincodecontroller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(),
@@ -130,7 +124,7 @@ class _AddressState extends State<Address> {
                     return null;
                   }
                 },
-                controller: statecontroller,
+                controller: addProvider.statecontroller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(),
@@ -149,7 +143,7 @@ class _AddressState extends State<Address> {
                     return null;
                   }
                 },
-                controller: citycontroller,
+                controller: addProvider.citycontroller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(),
@@ -164,17 +158,10 @@ class _AddressState extends State<Address> {
                 color: Colors.orange,
                 child: ElevatedButton(
                   onPressed: () {
-                   
-                  
-                   if (
-                    formkey.currentState!.validate()
-                   ) {
-                      saveaddress();
-                      dilogbox();
-                      
-                   }
-                   
-                   
+                    if (addProvider.formkey.currentState!.validate()) {
+                      saveaddress(context);
+                      dilogbox(context);
+                    }
                   },
                   child: Text(
                     "Save Address",
@@ -189,40 +176,52 @@ class _AddressState extends State<Address> {
     );
   }
 
-  saveaddress() async {
-    final name =namecontroller.text;
-    final number=phonecontroller.text;
-    final address=addresscontroller.text;
-    final pincode=pincodecontroller.text;
-    final state= statecontroller.text;
-    final city=citycontroller.text;
-    if (name.isEmpty||number.isEmpty||address.isEmpty||pincode.isEmpty||state.isEmpty||state.isEmpty||city.isEmpty) {
-      return ;
-    } 
-      
-   
- 
-    final list=CoustmerDetils(name: name, number: number, address: address, pincode: pincode, state: state, city: city);
-      
-    addcoustmerDetils(list);
-     Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context) => ScreeenHome()));
+  saveaddress(BuildContext context) async {
+    final addProvider = Provider.of<BookingProvider>(context, listen: false);
+    final name = addProvider.namecontroller.text;
+    final number = addProvider.phonecontroller.text;
+    final address = addProvider.addresscontroller.text;
+    final pincode = addProvider.pincodecontroller.text;
+    final state = addProvider.statecontroller.text;
+    final city = addProvider.citycontroller.text;
+    if (name.isEmpty ||
+        number.isEmpty ||
+        address.isEmpty ||
+        pincode.isEmpty ||
+        state.isEmpty ||
+        state.isEmpty ||
+        city.isEmpty) {
+      return;
+    }
+
+    final list = CoustmerDetils(
+        name: name,
+        number: number,
+        address: address,
+        pincode: pincode,
+        state: state,
+        city: city);
+  
+     
+       Provider.of<OrderProvider>(context,listen: false).addcoustmer(list);
 
 
-
- 
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => ScreeenHome()));
   }
-  void dilogbox(){
-  showDialog(context: 
-  context, builder: (context)=>AlertDialog(
-    content: const Text("your order placed"),
-    actions: [TextButton(onPressed: (){
-      Navigator.pop(context);
-    }, child:Text("ok"))],
 
-  ));
-
-
-}
-
+  void dilogbox(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: const Text("your order placed"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("ok"))
+              ],
+            ));
+  }
 }

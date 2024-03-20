@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-
-import 'package:travel_app/screens/addnewshoes.dart';
-import 'package:travel_app/screens/piechart.dart';
-
+import 'package:travel_app/view/addnewshoes.dart';
+import 'package:travel_app/view/piechart.dart';
 class User extends StatelessWidget {
   const User({super.key});
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

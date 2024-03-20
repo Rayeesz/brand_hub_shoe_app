@@ -1,28 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:travel_app/function/shoefunction.dart';
-import 'package:travel_app/model/shoemen/shoemodel.dart';
-
-
-
-import 'package:travel_app/screens/buynow.dart';
-import 'package:travel_app/screens/piechart.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_app/controller/shoe_men_provider.dart';
+import 'package:travel_app/view/buynow.dart';
+import 'package:travel_app/view/piechart.dart';
 import 'package:travel_app/widget/screenhome.dart';
 
-class Men extends StatefulWidget {
-  const Men({Key? key});
+class Men extends StatelessWidget {
+  Men({Key? key});
 
-  @override
-  State<Men> createState() => _MenState();
-}
-
-class _MenState extends State<Men> {
   List<int> mentotal = [];
 
   @override
   Widget build(BuildContext context) {
-    getAllshoeDetils();
+    Provider.of<shoeMenprovider>(context).getAllMs();
 
     return Scaffold(
       appBar: AppBar(
@@ -91,43 +83,40 @@ class _MenState extends State<Men> {
             height: 20,
           ),
           Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: shoedetilsnoti,
-              builder: (BuildContext ctx, List<Shoe> shoelist, Widget? child) {
-                return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 00.0,
-                  ),
-                  itemBuilder: (context, index) {
-                    final shoe = shoelist[index];
-                    mentotal.add(int.parse(shoe.price));
-                    double total = mentotal
-                        .reduce((value, element) => value + element)
-                        .toDouble();
-                    Chart.menvalue = total;
+            child: Consumer<shoeMenprovider>(builder: (context, pro, _) {
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 00.0,
+                ),
+                itemBuilder: (context, index) {
+                  final shoe = pro.shoeMenlist[index];
+                  mentotal.add(int.parse(shoe.price));
+                  double total = mentotal
+                      .reduce((value, element) => value + element)
+                      .toDouble();
+                  Chart.menvalue = total;
 
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                        left: 30,
-                      ),
-                      child: Ref(
-                          onpressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Order(
-                                    name: shoe.text,
-                                    price: shoe.price,
-                                    imagepath: shoe.image)));
-                          },
-                          text: shoe.text,
-                          price: shoe.price,
-                          image: shoe.image),
-                    );
-                  },
-                  itemCount: shoelist.length,
-                );
-              },
-            ),
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      left: 30,
+                    ),
+                    child: Ref(
+                        onpressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Order(
+                                  name: shoe.text,
+                                  price: shoe.price,
+                                  imagepath: shoe.image)));
+                        },
+                        text: shoe.text,
+                        price: shoe.price,
+                        image: shoe.image),
+                  );
+                },
+                itemCount: pro.shoeMenlist.length,
+              );
+            }),
           ),
         ],
       ),

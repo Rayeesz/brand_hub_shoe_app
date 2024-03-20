@@ -4,11 +4,11 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/function/cartfunction.dart';
 import 'package:travel_app/model/cartmodel/cartmodel.dart';
-import 'package:travel_app/screens/adress.dart';
+import 'package:travel_app/view/adress.dart';
+import 'package:travel_app/view/cart.dart';
 
-import 'package:travel_app/screens/cart.dart';
 
-class Order extends StatefulWidget {
+class Order extends StatelessWidget {
   final String name;
   final String price;
   final String imagepath;
@@ -19,11 +19,6 @@ class Order extends StatefulWidget {
     required this.imagepath,
   });
 
-  @override
-  State<Order> createState() => _OrderState();
-}
-
-class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +52,7 @@ class _OrderState extends State<Order> {
               child: Row(
                 children: [
                   Text(
-                    "${widget.name}",
+                    "$name",
                     style: TextStyle(
                         fontSize: 25,
                         color: Colors.black,
@@ -66,7 +61,7 @@ class _OrderState extends State<Order> {
                   ),
                   SizedBox(width: 350),
                   Text(
-                    "₹${widget.price}",
+                    "₹$price",
                     style: TextStyle(
                         fontSize: 25,
                         color: Color.fromARGB(255, 235, 143, 5),
@@ -207,7 +202,7 @@ class _OrderState extends State<Order> {
         backgroundColor: const Color.fromARGB(255, 253, 246, 246),
         onPressed: () {
           
-          addcart(CartModel(image: widget.imagepath, price: widget.price, text: widget.name));
+          addcart(CartModel(image: imagepath, price: price, text: name));
           
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>

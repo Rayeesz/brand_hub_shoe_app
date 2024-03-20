@@ -5,18 +5,29 @@ import 'package:hive/hive.dart';
 
 import 'package:travel_app/model/shoewomenmodel/shoewomen.dart';
 
-ValueNotifier<List<ShoeWomen>> ShoeWomenlist = ValueNotifier([]);
-Future<void> addWomenshoe(ShoeWomen value) async {
-  final shoeWomenDb = await Hive.openBox<ShoeWomen>("shoe Women db");
-  shoeWomenDb.add(value);
-  ShoeWomenlist.value.add(value);
-  ShoeWomenlist.notifyListeners();
-}
+// ValueNotifier<List<ShoeWomen>> ShoeWomenlist = ValueNotifier([]);
+// Future<void> addWomenshoe(ShoeWomen value) async {
+//   final shoeWomenDb = await Hive.openBox<ShoeWomen>("shoe Women db");
+//   shoeWomenDb.add(value);
+//   ShoeWomenlist.value.add(value);
+//   ShoeWomenlist.notifyListeners();
+// }
 
-getAllWomenshoesDetils() async {
-  final shoeWomenDb = await Hive.openBox<ShoeWomen>("shoe Women db");
-  ShoeWomenlist.value.clear();
-  ShoeWomenlist.value.addAll(shoeWomenDb.values);
-  
-  ShoeWomenlist.notifyListeners();
+// getAllWomenshoesDetils() async {
+//   final shoeWomenDb = await Hive.openBox<ShoeWomen>("shoe Women db");
+//   ShoeWomenlist.value.clear();
+//   ShoeWomenlist.value.addAll(shoeWomenDb.values);
+
+//   ShoeWomenlist.notifyListeners();
+// }
+class WomenShoe {
+  Future addWomenshoe(ShoeWomen value) async {
+    final shoeWomenDb = await Hive.openBox<ShoeWomen>("shoe Women db");
+    return shoeWomenDb.add(value);
+  }
+
+  getAllWomenshoesDetils() async {
+    final shoeWomenDb = await Hive.openBox<ShoeWomen>("shoe Women db");
+    return shoeWomenDb.values.toList();
+  }
 }

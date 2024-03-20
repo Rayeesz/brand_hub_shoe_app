@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:travel_app/function/cartfunction.dart';
-import 'package:travel_app/function/shoefunction.dart';
+
 import 'package:travel_app/model/cartmodel/cartmodel.dart';
 
-import 'package:travel_app/screens/adress.dart';
+import 'package:travel_app/view/adress.dart';
 import 'package:travel_app/widget/screenhome.dart';
 
 class Cart extends StatefulWidget {
@@ -20,18 +20,14 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   int totalprice = 0;
-  int selectedquantity = 1;
   
 
   @override
-
   void initState() {
-    
-     getAllCart();
-    
+    getAllCart();
   }
+
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -69,7 +65,7 @@ class _CartState extends State<Cart> {
                           itemCount: cartlist.length,
                           itemBuilder: (ctx, index) {
                             final cart = cartlist[index];
-                            getAllshoeDetils();
+                            // getAllshoeDetils();
 
                             List<int?> price = [];
                             for (var element in cartlist) {
@@ -245,7 +241,6 @@ class _CartState extends State<Cart> {
       ),
     );
   }
-
   int calculateTotalPrice(List<CartModel> cartList) {
     int total = 0;
     for (var cart in cartList) {

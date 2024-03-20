@@ -1,36 +1,22 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types, use_key_in_widget_constructors, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:travel_app/function/function.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_app/model/model/model.dart';
-import 'package:travel_app/screens/editorders.dart';
+import 'package:travel_app/controller/orders_provider.dart';
+import 'package:travel_app/controller/search_provider.dart';
+import 'package:travel_app/view/editorders.dart';
+import 'package:travel_app/view/viewadress.dart';
 import 'package:travel_app/widget/screenhome.dart';
-import 'package:travel_app/screens/viewadress.dart';
 
-class Orders extends StatefulWidget {
+
+class Orders extends StatelessWidget {
   const Orders({Key? key});
 
   @override
-  State<Orders> createState() => _OrdersState();
-}
-
-class _OrdersState extends State<Orders> {
-  String search = '';
-  List<CoustmerDetils> searchedList = [];
-  void searchList() {
-    getAllCoustmer();
-    setState(() {
-      searchedList = coustmerlistnotifier.value
-          .where(
-              (Shoe) => Shoe.name.toLowerCase().contains(search.toLowerCase()))
-          .toList();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    getAllCoustmer();
-    searchList();
+   Provider.of<OrderProvider>(context,listen: false).gettallorders();
+    final searchpro=Provider.of<searchprovider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: () {
@@ -47,12 +33,10 @@ class _OrdersState extends State<Orders> {
         children: [
           Padding(
             padding: const EdgeInsets.all(15.0),
-            child: TextField(
+            child: TextFormField(
               onChanged: (value) {
-                setState(() {
-                  search = value;
-                  searchList();
-                });
+                searchpro.search=value;
+                searchpro.checkSearch(context);
               },
               decoration: InputDecoration(
                 hintText: 'Enter customer name',
@@ -65,15 +49,12 @@ class _OrdersState extends State<Orders> {
             ),
           ),
           Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: coustmerlistnotifier,
-              builder: (BuildContext ctx, List<CoustmerDetils> coustmerlist,
-                  Widget? child) {
-                return search.isNotEmpty?searchedList.isEmpty
-                ?Center(child: Text('No customer available'))
-                :customerbuild(searchedList)
-                :customerbuild(coustmerlist);
-              },
+            child: Consumer2<searchprovider,OrderProvider>(
+              builder: (BuildContext ctx ,searchvalue,coustmersearch,child) {
+                return 
+                SizedBox(child:searchvalue.search.isNotEmpty?coustmersearch.coustmerSearchList.isEmpty? Center(child: Text('No customer available')):customerbuild(coustmersearch.coustmerSearchList)
+                :customerbuild(coustmersearch.orderList));
+              }
             ),
           ),
         ],
@@ -81,13 +62,16 @@ class _OrdersState extends State<Orders> {
     );
   }
 
+
   Widget customerbuild(List<CoustmerDetils> customerlist) {
-    return ListView.separated(
+
+    return customerlist.isEmpty?SizedBox(child: Center(child: Text('No data found'),),):
+    ListView.separated(
       itemBuilder: (ctx, index) {
         final data = customerlist[index];
         return ListTile(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(ctx).push(MaterialPageRoute(
                 builder: (context) => ViewScreen(
                     name:data.name ,
                     phone: data.number,
@@ -107,7 +91,7 @@ class _OrdersState extends State<Orders> {
             children: [
               IconButton(
                 onPressed: () {
-                  deleteCoustmer(index);
+                 Provider.of<OrderProvider>(ctx,listen: false).deleteCoustmer(index);
                   
                 },
                 icon: Icon(Icons.delete),
@@ -117,7 +101,7 @@ class _OrdersState extends State<Orders> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(
+                  Navigator.of(ctx).push(
                     MaterialPageRoute(
                         builder: (context) => Editorders(
                               index: index,

@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_app/main.dart';
-import 'package:travel_app/screens/loginscreen.dart';
+import 'package:travel_app/view/loginscreen.dart';
+
 import 'package:travel_app/widget/screenhome.dart';
 
 class spalash extends StatefulWidget {

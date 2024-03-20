@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, camel_case_types, prefer_const_constructors, sort_child_properties_last, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:travel_app/function/function.dart';
-import 'package:travel_app/model/model/model.dart';
+import 'package:provider/provider.dart';
 
-import 'package:travel_app/screens/men.dart';
+import 'package:travel_app/model/model/model.dart';
+import 'package:travel_app/controller/orders_provider.dart';
+import 'package:travel_app/view/men.dart';
+
+
 
 class Editorders extends StatefulWidget {
   final String name;
@@ -203,6 +206,7 @@ class _EditordersState extends State<Editorders> {
   }
 
   updateall() async {
+    final provideredit=Provider.of<OrderProvider>(context,listen: false);
     final name0 = namecontroller.text;
     final number0 = phonecontroller.text;
     final address0 = addresscontroller.text;
@@ -224,7 +228,7 @@ class _EditordersState extends State<Editorders> {
           pincode: pincode0,
           state: state0,
           city: city0);
-      editCoustmer(update, widget.index);
+          provideredit.editCoustmer(update, widget.index);
       Navigator.pop(context);
       
     }

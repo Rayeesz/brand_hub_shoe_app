@@ -1,5 +1,7 @@
 {
     "recommendations": [
-        "bracketpaircolordlw.bracket-pair-color-dlw"
+        "bracketpaircolordlw.bracket-pair-color-dlw",
+        "wesbos.theme-cobalt2",
+        "katsute.code-background"
     ]
 }
